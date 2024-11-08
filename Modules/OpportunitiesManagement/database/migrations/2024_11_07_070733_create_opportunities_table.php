@@ -14,11 +14,10 @@ return new class extends Migration {
         Schema::create('opportunities', function (Blueprint $table) {
             $table->id();
             $table->string('subject');
-            $table->integer('customer');
             $table->unsignedInteger('estimated_price');
             $table->unsignedBigInteger('user_id')->index();
             $table->enum('status', array_column(OpportunityStatus::cases(), 'value'))
-                ->default(OpportunityStatus::PENDING);
+                ->default(OpportunityStatus::NEW);
             $table->timestamps();
         });
     }

@@ -25,10 +25,7 @@ class OpportunityStoreRequest extends FormRequest
     {
         return [
             'subject' => 'required|string|max:255',
-            'customer' => 'required|integer',
             'estimated_price' => 'required|integer|min:0',
-            'user_id' => 'required|exists:users,id',
-            'status' => 'required|in:' . implode(',', array_column(OpportunityStatus::cases(), 'value'))
         ];
     }
 }

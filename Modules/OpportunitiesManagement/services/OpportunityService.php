@@ -11,16 +11,15 @@ use Modules\UserManagement\Enums\Role;
 
 class OpportunityService implements OpportunityRepository
 {
-    public function index(): Collection
+    public function index($q): Collection
     {
         $currentUser = auth('api')->user();
-        if ($currentUser?->hasRole(Role::ADMIN)) {
-            return Opportunity::all();
-        } elseif ($currentUser?->hasRole(Role::USER)) {
-            return Opportunity::where('user_id', $currentUser?->id)->get();
-        } else {
-            return Collection::empty();
+        $query = Opportunity::query();
+        if ($currentUser?->hasRole(Role::USER)) {
+            $query->where('user_id', $currentUser?->id);
         }
+        if ($q) $query->search($q);
+        return $query->get();
     }
 
     /**
@@ -28,9 +27,6 @@ class OpportunityService implements OpportunityRepository
      */
     public function store(array $params): Opportunity
     {
-        if (in_array($params['status'], [OpportunityStatus::LOST, OpportunityStatus::WON])) {
-            throw new Exception("Sales opportunities cannot be created in won or lost statuses.");
-        }
         $params['user_id'] = auth()->id();
         return Opportunity::create($params);
     }

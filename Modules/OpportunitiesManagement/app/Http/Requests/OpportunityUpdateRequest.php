@@ -25,10 +25,7 @@ class OpportunityUpdateRequest extends FormRequest
     {
         return [
             'subject' => 'string|max:255',
-            'customer' => 'integer',
             'estimated_price' => 'integer|min:0',
-            'user_id' => 'exists:users,id',
-            'status' => 'in:' . implode(',', array_column(OpportunityStatus::cases(), 'value'))
         ];
     }
 }

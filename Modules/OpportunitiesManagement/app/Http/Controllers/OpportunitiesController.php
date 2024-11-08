@@ -19,7 +19,7 @@ class OpportunitiesController extends Controller
 
     public function index()
     {
-        return response()->json($this->opportunityService->index());
+        return response()->json($this->opportunityService->index(request()->filled('q')));
     }
 
     public function store(OpportunityStoreRequest $request)

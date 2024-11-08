@@ -12,11 +12,10 @@ use Modules\OpportunitiesManagement\Enums\OpportunityStatus;
 use Modules\UserManagement\Models\User;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $subject
- * @property int $customer
  * @property int $estimated_price
  * @property int $user_id
  * @property OpportunityStatus $status
@@ -45,13 +44,12 @@ class Opportunity extends Model
 
     protected $fillable = [
         'subject',
-        'customer',
         'user_id',
         'estimated_price',
         'status'
     ];
 
-    protected array $search = ['subject', 'customer', 'status'];
+    protected array $search = ['subject', 'status'];
 
     protected $casts = [
         'status' => OpportunityStatus::class

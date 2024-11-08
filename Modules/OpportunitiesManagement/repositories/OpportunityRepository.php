@@ -7,7 +7,11 @@ use Modules\OpportunitiesManagement\Models\Opportunity;
 
 interface OpportunityRepository
 {
-    public function index(): Collection;
+    /**
+     * @param $q
+     * @return Collection
+     */
+    public function index($q): Collection;
 
     public function store(array $params): Opportunity;
 
