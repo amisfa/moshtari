@@ -70,3 +70,18 @@ Follow the instructions below to set up and run the project locally.
 ### Usage
 
 Once the server is running, you can access the application locally at `http://127.0.0.1:8000`.
+
+default Users: 
+
+```angular2html
+Adminstrator:
+userName: adminstrator
+password: 123456
+
+```
+
+```angular2html
+user:
+userName: user
+password: 123456
+```
