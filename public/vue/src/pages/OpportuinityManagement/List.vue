@@ -1,6 +1,6 @@
 <template>
     <div class="p-8 w-2/3 m-auto block">
-        <v-dialog v-model="createEditDialogs">
+        <v-dialog v-model="createEditDialogs" max-width="700">
             <Upsert @submit="createEditDialogs = !createEditDialogs; getData"
                     @cancel="createEditDialogs = !createEditDialogs; editData = null"
                     :edit-data="editData"/>
@@ -23,14 +23,28 @@
                 </template>
             </v-list-item>
             <template v-slot:text>
-                <v-text-field
-                    class="text-blue-darken-2"
-                    v-model="search"
-                    @change="changedSearch"
-                    label="Search"
-                    hide-details
-                    single-line
-                ></v-text-field>
+                <div class="flex justify-space-between">
+                    <div class="px-2 w-1/2">
+                        <v-text-field
+                            class="text-blue-darken-2"
+                            v-model="search"
+                            @change="changedSearch"
+                            label="Search"
+                            hide-details
+                            single-line
+                        ></v-text-field>
+                    </div>
+                    <div class="px-2 w-1/2">
+                        <v-select
+                            v-model="filter"
+                            :items="filterItems"
+                            @update:modelValue="changedFilter"
+                            item-title="name"
+                            item-value="id"
+                            label="Filter"
+                        ></v-select>
+                    </div>
+                </div>
             </template>
             <v-data-table
                 :loading="loading"
@@ -54,6 +68,14 @@ import Upsert from "./Upsert.vue";
 
 const loading = ref(false)
 const search = ref('')
+const filter = ref(null)
+
+const filterItems = ref([
+    {id: 'new', name: 'New'},
+    {id: 'pending', name: 'Pending'},
+    {id: 'won', name: 'Won'},
+    {id: 'lost', name: 'Lost'},
+])
 const headers = ref([
     {key: 'subject', title: 'Subject'},
     {key: 'estimated_price', title: 'Estimated Price'},
@@ -65,10 +87,13 @@ let createEditDialogs = ref(false)
 let editData = ref(null)
 const getData = async () => {
     loading.value = true
-    dataItems.value = (await repositories.opportunities({q: search.value})).data
+    dataItems.value = (await repositories.opportunities({q: search.value, filter: filter.value})).data
     loading.value = false
 }
 const changedSearch = async () => {
+    await getData()
+}
+let changedFilter = async () => {
     await getData()
 }
 
@@ -76,3 +101,9 @@ onMounted(async () => {
     await getData()
 })
 </script>
+
+<style>
+.v-select .v-field .v-field__input > input {
+    opacity: 0 !important;
+}
+</style>

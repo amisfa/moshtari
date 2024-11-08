@@ -11,13 +11,14 @@ use Modules\UserManagement\Enums\Role;
 
 class OpportunityService implements OpportunityRepository
 {
-    public function index($q): Collection
+    public function index($q, $filter): Collection
     {
         $currentUser = auth('api')->user();
         $query = Opportunity::query();
         if ($currentUser?->hasRole(Role::USER)) {
             $query->where('user_id', $currentUser?->id);
         }
+        if ($filter) $query->where('status', $filter);
         if ($q) $query->search($q);
         return $query->get();
     }

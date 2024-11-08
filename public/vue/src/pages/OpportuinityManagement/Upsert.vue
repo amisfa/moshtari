@@ -1,36 +1,37 @@
 <template>
-    <div class=" overflow-hidden flex items-center justify-center">
-        <div class="bg-white shadow-3xl rounded-xl">
-            <v-form lazy-validation v-model="valid" ref="form" class="p-12 md:p-24" @submit.prevent="submit">
-                <div class="flex items-center text-lg mb-6 md:mb-8">
-                    <v-text-field
-                        v-model="opportunityData.subject"
-                        :rules="rules"
-                        label="Subject"
-                    ></v-text-field>
-                </div>
-                <div class="flex items-center text-lg mb-6 md:mb-8">
-                    <v-text-field
-                        type="number"
-                        v-model="opportunityData.estimated_price"
-                        :rules="rules"
-                        label="Price"
-                    ></v-text-field>
-                </div>
-                <v-btn
-                    :loading="loading"
-                    :disabled="!valid"
-                    :type="submit"
-                    class="mb-4 bg-gradient-to-b from-gray-700 to-gray-900 font-medium text-white uppercase w-full rounded">
-                    {{ opportunityData.id ? 'Edit' : 'Create' }}
-                </v-btn>
-                <v-btn
-                    @click="resetOpportunityData();$emit('cancel')"
-                    class="mb-4 bg-gradient-to-b from-gray-700 to-gray-900 font-medium text-white uppercase w-full rounded">
-                    Cancel
-                </v-btn>
-            </v-form>
+    <div class="bg-white shadow-3xl rounded-xl p-8">
+        <div class="font-weight-bold text-h6">
+            {{ opportunityData.id ? 'Edit' : 'Create' }} Opportunity
         </div>
+        <v-form lazy-validation v-model="valid" ref="form" @submit.prevent="submit">
+            <div class="flex items-center text-lg mb-6 md:mb-8">
+                <v-text-field
+                    v-model="opportunityData.subject"
+                    :rules="rules"
+                    label="Subject"
+                ></v-text-field>
+            </div>
+            <div class="flex items-center text-lg mb-6 md:mb-8">
+                <v-text-field
+                    type="number"
+                    v-model="opportunityData.estimated_price"
+                    :rules="rules"
+                    label="Price"
+                ></v-text-field>
+            </div>
+            <v-btn
+                :loading="loading"
+                :disabled="!valid"
+                :type="submit"
+                class="mb-4 bg-gradient-to-b from-gray-700 to-gray-900 font-medium text-white uppercase w-full rounded">
+                {{ opportunityData.id ? 'Edit' : 'Create' }}
+            </v-btn>
+            <v-btn
+                @click="resetOpportunityData();$emit('cancel')"
+                class="mb-4 bg-gradient-to-b from-gray-700 to-gray-900 font-medium text-white uppercase w-full rounded">
+                Cancel
+            </v-btn>
+        </v-form>
     </div>
 </template>
 

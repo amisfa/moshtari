@@ -11,7 +11,7 @@ interface OpportunityRepository
      * @param $q
      * @return Collection
      */
-    public function index($q): Collection;
+    public function index($q, $filter): Collection;
 
     public function store(array $params): Opportunity;
 

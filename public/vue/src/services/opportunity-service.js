@@ -4,7 +4,7 @@ const route = 'opportunities'
 
 const OpportunityService = {
     opportunities(params) {
-        return $axios.get(`${route}/`)
+        return $axios.get(`${route}/`, {params})
     },
     store(params) {
         return $axios.post(`${route}/store`, params)
