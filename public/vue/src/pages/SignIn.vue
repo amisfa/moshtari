@@ -45,27 +45,27 @@
 <script setup>
 import {computed, inject, ref} from "vue";
 import repositories from "../services/repository-factory.js";
+import {useRouter} from "vue-router";
 
-const $store = inject('$store');
-const $router = inject('$router');
+const $store = inject('$store')
+const $router = useRouter()
 const userName = ref(null)
 const password = ref(null)
-const valid = ref(false);
+const valid = ref(false)
 
-const rules = computed(() => {
+let rules = computed(() => {
     return [
         value => !!value || 'Required.',
         value => (value && value.length >= 3) || 'Min 3 characters',
     ]
 })
 const submit = async () => {
-    const res = await repositories.login({user_name: userName.value, password: password.value})
-    if (res) {
+    await repositories.login({user_name: userName.value, password: password.value}).then((res) => {
         $store.setUserRole(res.data.user.roleNames.includes('admin') ? 'admin' : 'user')
         $store.setUserToken(res.data.token)
         $router.push({name: 'dashboard'})
-    } else {
+    }).catch(() => {
         $router.push({name: 'home-page'})
-    }
+    })
 }
 </script>

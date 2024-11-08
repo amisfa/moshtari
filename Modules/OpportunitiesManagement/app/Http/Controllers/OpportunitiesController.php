@@ -5,6 +5,7 @@ namespace Modules\OpportunitiesManagement\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Modules\OpportunitiesManagement\Http\Requests\OpportunityStoreRequest;
 use Modules\OpportunitiesManagement\Http\Requests\OpportunityUpdateRequest;
+use Modules\OpportunitiesManagement\Models\Opportunity;
 use Modules\OpportunitiesManagement\Services\OpportunityService;
 
 class OpportunitiesController extends Controller
@@ -26,9 +27,9 @@ class OpportunitiesController extends Controller
         return response()->json($this->opportunityService->store($request->all()));
     }
 
-    public function show(int $id)
+    public function show(Opportunity $opportunity)
     {
-        return response()->json($this->opportunityService->show($id));
+        return response()->json($this->opportunityService->show($opportunity));
     }
 
     public function update(OpportunityUpdateRequest $request, int $id)
@@ -36,8 +37,8 @@ class OpportunitiesController extends Controller
         return response()->json($this->opportunityService->update($id, $request->all()));
     }
 
-    public function delete(int $id)
+    public function delete(Opportunity $opportunity)
     {
-        return response()->json($this->opportunityService->destroy($id));
+        return response()->json($this->opportunityService->destroy($opportunity));
     }
 }

@@ -31,6 +31,7 @@ class OpportunityService implements OpportunityRepository
         if (in_array($params['status'], [OpportunityStatus::LOST, OpportunityStatus::WON])) {
             throw new Exception("Sales opportunities cannot be created in won or lost statuses.");
         }
+        $params['user_id'] = auth()->id();
         return Opportunity::create($params);
     }
 
@@ -59,10 +60,9 @@ class OpportunityService implements OpportunityRepository
     /**
      * @throws Exception
      */
-    public function show(int $id): Opportunity
+    public function show(Opportunity $opportunity): Opportunity
     {
         $currentUser = auth('api')->user();
-        $opportunity = Opportunity::find($id);
         if (!$currentUser?->hasRole(Role::ADMIN)
             and $opportunity?->user_id != $currentUser?->id) {
             throw new Exception("Non-administrator users cannot edit other users' sales opportunities.");
@@ -73,11 +73,11 @@ class OpportunityService implements OpportunityRepository
     /**
      * @throws Exception
      */
-    public function destroy(int $id): int
+    public function destroy(Opportunity $opportunity): int
     {
-        if (in_array(Opportunity::find($id)?->status, [OpportunityStatus::LOST, OpportunityStatus::WON])) {
+        if (in_array($opportunity?->status, [OpportunityStatus::LOST, OpportunityStatus::WON])) {
             throw new Exception('Sales opportunities with won or lost status cannot be deleted.');
         }
-        return Opportunity::destroy($id);
+        return $opportunity->delete();
     }
 }

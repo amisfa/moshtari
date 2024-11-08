@@ -47,26 +47,26 @@
 <script setup>
 import {computed, inject, ref} from "vue";
 import repositories from "../services/repository-factory.js";
+import {useAppStore} from "../stores/app.js";
 
-const $store = inject('$store');
+const $store = useAppStore();
 const $router = inject('$router');
 const userName = ref(null)
 const email = ref(null)
 const password = ref(null)
 const valid = ref(false);
 
-const rules = computed(() => {
+let rules = computed(() => {
     return [
         value => !!value || 'Required.',
         value => (value && value.length >= 3) || 'Min 3 characters',
     ]
 })
 const submit = async () => {
-    const res = await repositories.register({user_name: userName.value, password: password.value, email: email.value})
-    if (res) {
+    await repositories.register({user_name: userName.value, password: password.value, email: email.value}).then((res)=>{
         $store.setUserRole(res.data.user.user.roleNames.includes('admin') ? 'admin' : 'user')
         $store.setUserToken(res.data.token)
         $router.push({name: 'dashboard'})
-    }
+    })
 }
 </script>

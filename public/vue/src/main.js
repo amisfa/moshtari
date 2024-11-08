@@ -16,13 +16,9 @@ const vuetify = createVuetify({
 })
 router.beforeEach((to, from, next) => {
     const store = useAppStore();
-    if (to.name == 'home-page') {
-        if (store.getUsrToken) {
-            next({name: 'dashboard'})
-        }
-    }
+    if (to.name === 'home-page' && localStorage.getItem('user-token')) next({name: 'dashboard'})
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!store.getUsrToken) {
+        if (!localStorage.getItem('user-token')) {
             next({name: 'home-page'})
         } else {
             next()
