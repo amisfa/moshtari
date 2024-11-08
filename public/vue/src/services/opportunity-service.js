@@ -11,6 +11,9 @@ const OpportunityService = {
     },
     update(params) {
         return $axios.post(`${route}/update`, params)
+    },
+    changeStatus(params) {
+        return $axios.post(`${route}/${params.id}/change-status`, {status: params.status})
     }
 }
 

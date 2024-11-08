@@ -20,4 +20,11 @@ interface OpportunityRepository
     public function show(Opportunity $opportunity): Opportunity;
 
     public function destroy(Opportunity $opportunity): int;
+
+    /**
+     * @param Opportunity $opportunity
+     * @param $status
+     * @return int
+     */
+    public function changeStatus(Opportunity $opportunity, $status);
 }

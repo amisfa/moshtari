@@ -19,4 +19,5 @@ Route::group(['prefix' => 'opportunities'], function () {
     Route::post("/store", [OpportunitiesController::class, 'store']);
     Route::post("/update", [OpportunitiesController::class, 'update']);
     Route::delete("/{opportunity}", [OpportunitiesController::class, 'store']);
+    Route::post("/{opportunity}/change-status", [OpportunitiesController::class, 'changeStatus']);
 });

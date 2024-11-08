@@ -54,6 +54,13 @@ class OpportunityService implements OpportunityRepository
         return Opportunity::find($id)->update($params);
     }
 
+    public function changeStatus($opportunity, $status)
+    {
+        $opportunity->status = $status;
+        $opportunity->save();
+        return $opportunity;
+    }
+
     /**
      * @throws Exception
      */
@@ -64,7 +71,7 @@ class OpportunityService implements OpportunityRepository
             and $opportunity?->user_id != $currentUser?->id) {
             throw new Exception("Non-administrator users cannot edit other users' sales opportunities.");
         }
-        return Opportunity::find($id);
+        return $opportunity;
     }
 
     /**

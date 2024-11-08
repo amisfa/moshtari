@@ -3,6 +3,7 @@
 namespace Modules\OpportunitiesManagement\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Modules\OpportunitiesManagement\Http\Requests\OpportunityStoreRequest;
 use Modules\OpportunitiesManagement\Http\Requests\OpportunityUpdateRequest;
 use Modules\OpportunitiesManagement\Models\Opportunity;
@@ -37,6 +38,11 @@ class OpportunitiesController extends Controller
     public function update(OpportunityUpdateRequest $request, int $id)
     {
         return response()->json($this->opportunityService->update($id, $request->all()));
+    }
+
+    public function changeStatus(Opportunity $opportunity, Request $request)
+    {
+        return response()->json($this->opportunityService->changeStatus($opportunity, $request->status));
     }
 
     public function delete(Opportunity $opportunity)
